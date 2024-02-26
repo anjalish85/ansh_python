@@ -6,9 +6,7 @@ class Solution:
         for i in nums:
             if i<0:
                 c=c+1
-        print(c)
-        if c%2==0:
+        if c%2==0 :
             return 1
-        else:
-            return -1
+        return -1
             
