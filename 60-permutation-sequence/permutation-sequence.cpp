@@ -5,11 +5,8 @@ public:
         if (k == 0 || k == 1) {
             return 1;
         }
-        int result = 1;
-        for (int i = 2; i <= k; ++i) {
-            result *= i;
-        }
-        return result;
+        
+        return k*fn(k-1);
     }
 
     void valueadd(int k, int n, vector<int>& arr, string& s) {
