@@ -1,40 +1,28 @@
 class Solution {
 public:
-    
-    void solve(vector <int> arr, int idx, vector <vector <int>> &temp, vector <int> &subset, int target){
-        int currentsum=accumulate(subset.begin(), subset.end(),0);
-        
-        if (currentsum==target){
-            temp.push_back(subset);
+    void solve(int idx, vector<int>& arr, int target, vector<vector<int>>& ds, vector<int>& temp) {
+        if (idx == arr.size()) {
+            if (target == 0) {
+                ds.push_back(temp);
+            }
             return;
         }
-        
-        if (currentsum > target){
-            return;
+
+        // Include the element if it's not greater than the target
+        if (arr[idx] <= target) {
+            temp.push_back(arr[idx]);
+            solve(idx, arr, target - arr[idx], ds, temp); // Pass `idx` again to allow reuse
+            temp.pop_back(); // Backtrack
         }
-        
-        for (int i=0; i<arr.size(); i++){
-            subset.push_back(arr[i]);
-            solve(arr, i + 1, temp, subset, target);
-            subset.pop_back();  // Backtrack
-        }
-        
-       
-        
-        
+
+        // Exclude the element and move to the next index
+        solve(idx + 1, arr, target, ds, temp);
     }
+
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        
-        vector <vector <int>> temp;
-        vector <int> subset;
-        solve(candidates, 0, temp, subset, target);
-                
-        for (auto &t: temp){
-            sort(t.begin(), t.end());
-        }
-        sort(temp.begin(), temp.end());
-        
-        temp.erase(unique(temp.begin(), temp.end()), temp.end());
-        return temp;
+        vector<vector<int>> ds;
+        vector<int> temp;
+        solve(0, candidates, target, ds, temp);
+        return ds;
     }
 };
